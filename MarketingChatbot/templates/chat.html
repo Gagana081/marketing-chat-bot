@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marketing Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .client { color: blue; }
+        .merchant { color: green; }
+        .messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 400px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        form { display: flex; gap: 10px; }
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Marketing Chatbot - {{ role }} View</h2>
+
+    <div class="messages" id="chat-box"></div>
+
+    <form method="POST">
+        <input type="text" name="message" placeholder="Type a message..." autocomplete="off" required />
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        function fetchMessages() {
+            fetch('/messages')
+                .then(response => response.json())
+                .then(messages => {
+                    const chatBox = document.getElementById('chat-box');
+                    chatBox.innerHTML = '';
+
+                    messages.forEach(msg => {
+                        const div = document.createElement('div');
+                        div.className = msg.sender.toLowerCase();
+                        div.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text}`;
+                        chatBox.appendChild(div);
+                    });
+
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                });
+        }
+
+        // Auto-refresh every 2 seconds
+        setInterval(fetchMessages, 2000);
+        fetchMessages();
+    </script>
+</body>
+</html>

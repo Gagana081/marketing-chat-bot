@@ -1,0 +1,10 @@
+[
+    {
+        "sender": "Client",
+        "message": "hi"
+    },
+    {
+        "sender": "Merchant",
+        "message": "hello"
+    }
+]
